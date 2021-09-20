@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from app.config import config_options
+from flask_bcrypt import Bcrypt
 
 # app init / bootstrap init (bootstrap.init_app(app))
 app = Flask(__name__)
@@ -14,6 +15,8 @@ app.config.from_object(config_options['dev_config'])
 
 # init database
 db = SQLAlchemy(app)
+# init bcrypt
+bcrypt = Bcrypt(app)
 
 '''
 we import views after app initialization so as to avoid circular imports.
