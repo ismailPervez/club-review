@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, redirect, url_for, request
 from app.forms import RegistrationForm, LoginForm, CreatePitchForm, CommentForm
 from app.models import Comment, Review, User
-from app import db
+from app import db, bcrypt
 
 # routes
 @app.route("/")
