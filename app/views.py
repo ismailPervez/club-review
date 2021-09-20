@@ -31,3 +31,22 @@ def sign_up():
     else:
         print('account NOT created')
     return render_template('register.html', form=form)
+
+# login route
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            # check if the url has a parameter - next
+            next_route = request.args.get('next')
+            login_user(user)
+            print("successfully logged in as: ", current_user.username)
+            return redirect(next_route) if next_route else redirect(url_for('home'))
+
+
+    return render_template("login.html", form=form)
