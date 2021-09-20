@@ -3,6 +3,7 @@ from flask import render_template, redirect, url_for, request
 from app.forms import RegistrationForm, LoginForm, CreatePitchForm, CommentForm
 from app.models import Comment, Review, User
 from app import db, bcrypt
+from flask_login import login_user, current_user, logout_user, login_required
 
 # routes
 @app.route("/")
