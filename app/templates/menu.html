@@ -1,0 +1,17 @@
+<div class="menu-container">
+    <div class="close-btn-container">
+        <i class="fas fa-times"></i>
+    </div>
+    <nav>
+        <a href="/">home</a>
+        <!-- we should remove this profile page link if the user is not logged in -->
+        <a href="/account">profile</a>
+        <!-- if user is already logged in, we show logout link -->
+        {% if current_user.is_authenticated %}
+            <a href="/logout">logout</a>
+        {% else %}
+            <a href="/login">login</a>
+            <a href="/signup" id="sign-up-link">sign up</a>
+        {% endif %}
+    </nav>
+</div>
