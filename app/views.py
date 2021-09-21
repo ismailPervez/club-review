@@ -57,6 +57,8 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
+# create post route
 @app.route("/create", methods=["GET", "POST"])
 def create():
     form = CreatePitchForm()
