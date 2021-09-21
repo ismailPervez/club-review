@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'header.html' %}
+{% include 'menu.html' %}
+{% import 'macros.html' as macro %}
+<main>
+    <div class="account-container">
+        <section class="user-profile">
+            <h4>username</h4>
+            <p>{{ current_user.username }}</p>
+            <h4>email</h4>
+            <p>{{ current_user.email }}</p>
+            <h4>current posts</h4>
+            <p>{{ reviews | count }} posts</p>
+            <h4>total votes</h4>
+            <div class="votes">
+                <p>
+                    <i class="far fa-thumbs-up"></i>
+                    {{ upvotes }}
+                </p>
+                <p>
+                    <i class="far fa-thumbs-down"></i>
+                    {{ downvotes }}
+                </p>
+            </div>
+            <div class="action-btns">
+                <a class="btn btn-primary">update profile</a>
+                <a class="btn btn-primary" href="/create">create pitch</a>
+            </div>
+            <p>
+                {% for tag in tags %}
+                    <small>{{ tag }}</small>
+                {% endfor %}
+            </p>
+        </section>
+        <section class="posts">
+            {% for post in reviews %}
+                {{ macro.render_article(post.id, post.title, current_user.username ,post.content, post.upvotes, post.downvotes, post.tags, 'true') }}
+            {% endfor %}
+        </section>
+    </div>
+</main>
+{% endblock %}

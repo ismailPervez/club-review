@@ -142,3 +142,25 @@ def create():
     # review = Review(, ,)
 
     return render_template("createpost.html", form=form)
+
+'''
+user acccount
+'''
+@app.route('/account')
+@login_required
+def account():
+    user = User.query.filter_by(username=current_user.username).first()
+    all_reviews = user.reviews
+    
+    total_upvote_count = 0
+    total_downvote_count = 0
+    for review in all_reviews:
+        # this method converts a string representation of a list into a list
+        review.tags = ast.literal_eval(review.tags)
+        total_upvote_count += review.upvotes
+        total_downvote_count += review.downvotes
+
+    print(total_upvote_count)
+    print(total_downvote_count)
+
+    return render_template('account.html', reviews=all_reviews, upvotes=total_upvote_count, downvotes=total_downvote_count)
