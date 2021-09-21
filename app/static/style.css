@@ -276,3 +276,70 @@ form {
     grid-gap: 2%;
     min-height: max-content;
 }
+
+/* media queries */
+@media screen and (max-width: 1000px) {
+    .latest-reviews {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .latest-reviews {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    header nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 50%;
+    }
+
+    form {
+        min-width: 80%;
+    }
+
+    /* account page */
+    .account-container {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .user-profile {
+        margin-bottom: 3%;
+    }
+
+    .post-container {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    header .fa-bars {
+        display: inline;
+    }
+
+    header nav {
+        display: none;
+    }
+
+    form {
+        min-width: 95%;
+    }
+
+    .menu-container {
+        display: none;
+    }
+
+    .menu-container.active {
+        display: block;
+    }
+}
