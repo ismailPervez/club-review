@@ -164,3 +164,16 @@ def account():
     print(total_downvote_count)
 
     return render_template('account.html', reviews=all_reviews, upvotes=total_upvote_count, downvotes=total_downvote_count)
+
+
+'''
+make a view to delete each post
+'''
+@app.route('/delete/<int:post_id>', methods=["GET", "DELETE"])
+def delete_post(post_id):
+    # check if the post belongs to the current user before deleting it
+    post = Review.query.filter_by(id=post_id).first()
+    if current_user.id == post.user_id:
+        db.session.delete(post)
+        db.session.commit()
+    return redirect(url_for('account'))
