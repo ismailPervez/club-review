@@ -4,11 +4,63 @@ from app.forms import RegistrationForm, LoginForm, CreatePitchForm, CommentForm
 from app.models import Comment, Review, User
 from app import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
+import ast
 
 # routes
 @app.route("/")
 def home():
-    return render_template('index.html')
+    reviews = Review.query.order_by(Review.id.desc()).limit(3).all()
+    latest_reviews = []
+    users = []
+    for review in reviews:
+
+        user = User.query.filter_by(id=review.user_id).first()
+        users.append(user)
+
+        review = Review(
+            id=review.id,
+            title=review.title,
+            content=review.content,
+            upvotes=review.upvotes,
+            downvotes=review.downvotes,
+            tags=review.tags,
+            user_id=review.user_id
+        )
+        review.tags = ast.literal_eval(review.tags)
+        latest_reviews.append(review)
+
+    # get job pitches
+    job_reviews = Review.query.order_by(Review.id.desc()).limit(15).all()
+    print(job_reviews)
+
+    latest_job_reviews = []
+    job_reviews_users = []
+    for review in job_reviews:
+        review = Review(
+            id=review.id,
+            title=review.title,
+            content=review.content,
+            upvotes=review.upvotes,
+            downvotes=review.downvotes,
+            tags=review.tags,
+            user_id=review.user_id
+        )
+        review.tags = ast.literal_eval(review.tags)
+        print(review.tags)
+
+        if 'jobpitch' in review.tags or 'interviewpitch' in review.tags:
+            print('its a job pitch')
+            latest_job_reviews.append(review)
+            user = User.query.filter_by(id=review.user_id).first()
+            job_reviews_users.append(user)
+
+    if len(latest_job_reviews) > 3:
+        latest_job_reviews = latest_job_reviews[:3]
+        job_reviews_users = job_reviews_users[:3]
+    # print(latest_job_reviews)
+    # print(job_reviews_users)
+
+    return render_template('index.html', latest_reviews=latest_reviews, users=users, latest_job_reviews=latest_job_reviews, job_reviews_users=job_reviews_users)
 
 # sign up page
 @app.route("/signup", methods=["GET", "POST"])

@@ -4,6 +4,21 @@
 {% include 'menu.html' %}
 {% import 'macros.html' as macro %}
 <main>
-    <h1>hello world</h1>
+    <section>
+        <h2>Latest Pitches</h2>
+        <article class="latest-reviews">
+            {% for review in latest_reviews %}
+                {{ macro.render_article(review.id, review.title, users[loop.index - 1].username, review.content, review.upvotes, review.downvotes, review.tags) }}
+            {% endfor %}
+        </article>
+    </section>
+    <section>
+        <h2>Job Pitches</h2>
+        <article class="latest-reviews">
+            {% for review in latest_job_reviews %}
+                {{ macro.render_article(review.id, review.title, job_reviews_users[loop.index - 1].username, review.content, review.upvotes, review.downvotes, review.tags) }}
+            {% endfor %}
+        </article>
+    </section>
 </main>
 {% endblock %}
