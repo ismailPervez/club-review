@@ -193,3 +193,42 @@ def update_post(post_id):
     db.session.commit()
 
     return "status: ok"
+
+
+# full post
+@app.route("/full-post/<int:post_id>", methods=["GET", "POST"])
+@login_required
+def full_post(post_id):
+    form = CommentForm()
+    review = Review.query.filter_by(id=post_id).first()
+    user = User.query.filter_by(id=review.user_id).first()
+    review = Review(
+        id=review.id,
+        title=review.title,
+        content=review.content,
+        upvotes=review.upvotes,
+        downvotes=review.downvotes,
+        tags=review.tags,
+        user_id=review.user_id
+    )
+
+    review.tags = ast.literal_eval(review.tags)
+
+    # all comments for this post
+    comments = Comment.query.filter_by(post_id=post_id).all()
+    
+    users = []
+    for comment in comments:
+        user = User.query.filter_by(id=comment.user_id).first()
+        users.append(user)
+
+    print(comments)
+
+    if form.validate_on_submit():
+        comment = form.content.data
+        comment = Comment(content=comment, user_id=current_user.id, post_id=post_id)
+
+        db.session.add(comment)
+        db.session.commit()
+
+    return render_template("fullpost.html", form=form, post=review, user=user, comments=comments, users=users)

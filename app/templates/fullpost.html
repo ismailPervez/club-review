@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'header.html' %}
+{% include 'menu.html' %}
+{% import 'macros.html' as macro %}
+<main>
+    <div class="post-container">
+        <div class="post">
+            {{ macro.render_article(post.id, post.title, user.username, post.content, post.upvotes, post.downvotes, post.tags) }}
+        </div>
+        <section class="comments">
+            <article>
+                {% for comment in comments %}
+                    <div class="comment-card">
+                        <p>{{ users[loop.index - 1].username }}</p>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                {% endfor %}
+            </article>
+            <form class="comment-form" action="" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <!-- error handling -->
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span class="error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+{% endblock %}
