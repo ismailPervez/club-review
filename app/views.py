@@ -177,3 +177,19 @@ def delete_post(post_id):
         db.session.delete(post)
         db.session.commit()
     return redirect(url_for('account'))
+
+
+# update a review/post - when liked or disliked
+@app.route('/update/<int:post_id>', methods=['PUT'])
+@login_required
+def update_post(post_id):
+    review = Review.query.filter_by(id=post_id).first()
+    if "upvotes" in request.json:
+        review.upvotes = request.json["upvotes"]
+
+    if "downvotes" in request.json:
+        review.downvotes = request.json["downvotes"]
+
+    db.session.commit()
+
+    return "status: ok"
