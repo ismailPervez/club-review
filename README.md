@@ -4,6 +4,8 @@ A web application where users can go online and make a pitch within one minute, 
 # description
 club review is a web application that enables a user to create pitches, in form of posts. Other users can then upvote, downvote or comment on this post so as to give feedback.
 To unlock features such as upvoting, downvoting, commenting and even create a pitch, a user requires to have an account.
+to create an account, just click the sign up link in the header, this will take you to a 
+sign up form, where after inputing the correct details, an email will be sent to you
 
 this web application is developed using the following technologies:
 * front-end

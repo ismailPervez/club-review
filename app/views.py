@@ -1,10 +1,10 @@
-from app import app
+from app import app, db, bcrypt, mail
 from flask import render_template, redirect, url_for, request
 from app.forms import RegistrationForm, LoginForm, CreatePitchForm, CommentForm
 from app.models import Comment, Review, User
-from app import db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import ast
+from flask_mail import Message
 
 # routes
 @app.route("/")
@@ -78,6 +78,15 @@ def sign_up():
         db.session.commit()
 
         print("account created successfully!")
+
+        msg = Message("welcome to club review", sender="noreply@clubreview.com", recipients=[form.email.data])
+        msg.body = f'''
+            welcome to club review
+            Hi {form.username.data},
+            welcome to club review. thanks for joining our ever growing society
+        '''
+        
+        mail.send(msg)
         return redirect(url_for('home')) # you pass in the view function name and not the 
         # route name
     else:
